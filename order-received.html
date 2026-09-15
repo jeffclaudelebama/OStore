@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta http-equiv="X-UA-Compatible" content="IE=edge">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="icon" href="img/logo.png" type="image/png">
+      <title>Foodmart - Food & Grocery Delivery Mobile Template</title>
+      <!-- Bootstrap Css -->
+      <link rel="stylesheet" href="vender/bootstrap/css/bootstrap.min.css">
+      <!-- Icofont -->
+      <link rel="stylesheet" href="vender/icofont/icofont.min.css">
+      <!-- Custom Css -->
+      <link rel="stylesheet" href="css/style.css">
+   </head>
+   <body>
+      <div class="d-flex flex-column vh-100">
+         <div class="order-received vh-100 d-flex align-items-center justify-content-center">
+            <a href="track-order.html" class="link-dark">
+               <div class="text-center p-4">
+                  <img src="img/order-received.png" alt="" class="img-fluid w-50 mb-4">
+                  <div id="order-summary">
+                     <h3 class="fw-bold">Commande confirmée</h3>
+                     <p class="text-muted">Votre commande Ostore a bien été enregistrée.</p>
+                  </div>
+               </div>
+            </a>
+         </div>
+         <div class="mt-auto p-4">
+            <a href="track-order.html" class="btn btn-primary w-100 text-uppercase btn-lg fw-bold">Track Order</a>
+         </div>
+      </div>
+      <!-- Bootstrap Bundle Js -->
+      <script src="vender/bootstrap/js/bootstrap.bundle.min.js"></script>
+      <script src="js/cart.js"></script>
+      <script src="assets/js/i18n.js"></script>
+      <script>
+         document.addEventListener('DOMContentLoaded', function () {
+            var summary = document.getElementById('order-summary');
+            var order = JSON.parse(localStorage.getItem('ostore_last_order') || 'null');
+            if (summary && order) {
+               summary.innerHTML = '<h3 class="fw-bold">Commande confirmée</h3><p class="text-muted mb-1">Référence : ' + order.id + '</p><p class="text-muted mb-0">Total : ' + new Intl.NumberFormat('fr-FR').format(order.total) + ' FCFA</p>';
+            }
+         });
+      </script>
+   </body>
+</html>
