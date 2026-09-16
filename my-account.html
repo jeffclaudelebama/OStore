@@ -19,6 +19,25 @@
          <p class="mb-1" data-user-phone></p>
          <p class="mb-0" data-user-email></p>
       </section>
+      <section class="bg-white rounded-3 shadow-sm p-3 mb-3">
+         <h2 class="h6 fw-bold">Modifier mon profil</h2>
+         <form id="profile-form">
+            <input name="name" class="form-control mb-2" placeholder="Nom complet" required>
+            <input name="phone" class="form-control mb-2" placeholder="Téléphone WhatsApp" required>
+            <input name="email" type="email" class="form-control mb-2" placeholder="E-mail" required>
+            <input name="address" class="form-control mb-3" placeholder="Ville / Quartier">
+            <button class="btn btn-dark w-100" type="submit">Enregistrer les modifications</button>
+         </form>
+      </section>
+      <section class="bg-white rounded-3 shadow-sm p-3 mb-3">
+         <h2 class="h6 fw-bold">Sécurité &amp; Mot de passe</h2>
+         <form id="password-form">
+            <input name="currentPassword" type="password" class="form-control mb-2" placeholder="Ancien mot de passe" required>
+            <input name="newPassword" type="password" class="form-control mb-2" placeholder="Nouveau mot de passe" minlength="6" required>
+            <input name="confirmation" type="password" class="form-control mb-3" placeholder="Confirmation" required>
+            <button class="btn btn-outline-dark w-100" type="submit">Modifier le mot de passe</button>
+         </form>
+      </section>
       <section class="bg-white rounded-3 shadow-sm p-3">
          <h2 class="h6 fw-bold">Historique des commandes</h2>
          <div data-order-history></div>

@@ -9,6 +9,15 @@
       <link rel="stylesheet" href="vender/icofont/icofont.min.css">
       <link rel="stylesheet" href="vender/sidebar/demo.css">
       <link rel="stylesheet" href="css/style.css">
+      <script src="js/auth.js"></script>
+      <script>
+         (function () {
+            if (!window.getCurrentUser()) {
+               localStorage.setItem('ostore_auth_return', 'checkout.html');
+               window.location.replace('signin.html?message=checkout');
+            }
+         }());
+      </script>
    </head>
    <body class="bg-light">
       <div class="d-flex flex-column vh-100">
@@ -25,6 +34,7 @@
                   <h6 class="fw-bold text-black mb-3" data-i18n="checkout.delivery">Livraison</h6>
                   <input name="name" required type="text" class="form-control rounded-3 py-2 mb-3" placeholder="Nom & Prénom" aria-label="Nom & Prénom" data-i18n-placeholder="checkout.fullName">
                   <input name="phone" required type="tel" class="form-control rounded-3 py-2 mb-3" placeholder="Numéro de téléphone / WhatsApp (+241 ...)" aria-label="Numéro de téléphone / WhatsApp" data-i18n-placeholder="checkout.phone">
+                  <input name="email" required type="email" class="form-control rounded-3 py-2 mb-3" placeholder="Adresse e-mail" aria-label="Adresse e-mail" autocomplete="email">
                   <select name="city" required class="form-select rounded-3 py-2 mb-3" aria-label="Ville"><option value="">Ville</option><option>Libreville</option><option>Akanda</option><option>Owendo</option></select>
                   <input name="address" required type="text" class="form-control rounded-3 py-2 mb-3" placeholder="Quartier précis / Repère" aria-label="Quartier précis / Repère" data-i18n-placeholder="checkout.location">
                   <textarea name="instructions" class="form-control rounded-3 py-2" rows="3" placeholder="Instructions de livraison (optionnel)" aria-label="Instructions de livraison" data-i18n-placeholder="checkout.instructions"></textarea>
@@ -59,7 +69,6 @@
       <script src="vender/sidebar/hc-offcanvas-nav.js"></script>
       <script src="js/custom.js"></script>
       <script src="js/cart.js"></script>
-      <script src="js/auth.js"></script>
       <script src="assets/js/i18n.js"></script>
       <script>
          document.addEventListener('DOMContentLoaded', function () {
@@ -105,6 +114,9 @@
                      createdAt: new Date().toISOString()
                   };
                   localStorage.setItem('ostore_last_order', JSON.stringify(order));
+                  var orders = JSON.parse(localStorage.getItem('ostore_orders') || '[]');
+                  orders.unshift(order);
+                  localStorage.setItem('ostore_orders', JSON.stringify(orders));
                   localStorage.removeItem('ostore_cart');
                   window.setTimeout(function () {
                      window.location.href = 'order-received.html';

@@ -186,7 +186,7 @@
             <li><a href="order-received.html"><i class="bi bi-check-circle me-3"></i>Order Received</a></li>
             <li><a href="track-order.html"><i class="bi bi-truck me-3"></i>Track Order</a></li>
             <li><a href="track-delivery-boy.html"><i class="bi bi-person-vcard me-3"></i>Track Delivery Boy</a></li>
-            <li><a href="profile.html"><i class="bi bi-person me-3"></i>Profile</a></li>
+            <li><a href="my-account.html"><i class="bi bi-person me-3"></i>Profile</a></li>
             <li><a href="order-detail.html"><i class="bi bi-receipt me-3"></i>Order Details</a></li>
             <li>
                <a href="#"><i class='bi bi-link me-3'></i>Example Multi Link</a>
@@ -210,7 +210,7 @@
                </a>
             </li>
             <li class="profile">
-               <a href="profile.html">
+               <a href="my-account.html">
                   <p class="h5 m-0"><i class="bi bi-person"></i></p>
                   Profile
                </a>
@@ -225,6 +225,19 @@
       <script src="vender/sidebar/hc-offcanvas-nav.js"></script>
       <!-- Custom Js -->
       <script src="js/custom.js"></script>
+      <script>
+         document.addEventListener('DOMContentLoaded', function () {
+            var order = JSON.parse(localStorage.getItem('ostore_last_order') || 'null');
+            var container = document.querySelector('.order-detail > .vh-100.my-auto.overflow-auto');
+            if (!order || !container) {
+               return;
+            }
+            var items = (order.items || []).map(function (item) {
+               return '<div class="d-flex justify-content-between border-bottom py-2"><span>' + item.name + ' × ' + item.quantity + '</span><strong>' + new Intl.NumberFormat('fr-FR').format(item.price * item.quantity) + ' FCFA</strong></div>';
+            }).join('');
+            container.innerHTML = '<div class="bg-white p-3 shadow-sm"><h6 class="fw-bold">Commande #' + order.id + '</h6><p class="text-muted small">' + new Date(order.createdAt).toLocaleString('fr-FR') + '</p><span class="badge bg-dark mb-3">En cours de traitement</span>' + items + '<div class="d-flex justify-content-between fw-bold pt-3"><span>Total</span><span>' + new Intl.NumberFormat('fr-FR').format(order.total || 0) + ' FCFA</span></div></div>';
+         });
+      </script>
       <script src="assets/js/i18n.js"></script>
    </body>
 </html>
