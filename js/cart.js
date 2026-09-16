@@ -29,6 +29,40 @@
       }, 0);
    }
 
+   function provideInteractionFeedback() {
+      if (navigator.vibrate) {
+         navigator.vibrate(35);
+      }
+      var bar = document.getElementById('ostore-cart-bar');
+      if (bar) {
+         bar.classList.remove('ostore-cart-bar--pulse');
+         void bar.offsetWidth;
+         bar.classList.add('ostore-cart-bar--pulse');
+      }
+   }
+
+   function showCartToast(isProductDetail) {
+      var toast = document.getElementById('ostore-cart-toast');
+      if (!toast) {
+         toast = document.createElement('div');
+         toast.id = 'ostore-cart-toast';
+         toast.className = 'ostore-toast';
+         toast.setAttribute('role', 'status');
+         toast.setAttribute('aria-live', 'polite');
+         document.body.appendChild(toast);
+      }
+      toast.innerHTML = isProductDetail ?
+         'Produit ajouté au panier <a href="cart.html">Voir le panier →</a>' :
+         'Article ajouté au panier';
+      toast.classList.remove('ostore-toast--visible');
+      void toast.offsetWidth;
+      toast.classList.add('ostore-toast--visible');
+      window.clearTimeout(toast.hideTimer);
+      toast.hideTimer = window.setTimeout(function () {
+         toast.classList.remove('ostore-toast--visible');
+      }, 1800);
+   }
+
    function persist(cart) {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(cart));
       syncCartUI();
@@ -55,6 +89,8 @@
          });
       }
       persist(cart);
+      provideInteractionFeedback();
+      showCartToast(Boolean(document.querySelector('.product-details')));
    }
 
    function updateQuantity(productId, delta) {
@@ -68,6 +104,8 @@
          cart = cart.filter(function (entry) { return entry.id !== String(productId); });
       }
       persist(cart);
+      provideInteractionFeedback();
+      showCartToast(Boolean(document.querySelector('.product-details')));
    }
 
    function removeFromCart(productId) {
@@ -116,15 +154,20 @@
 
    function quantityControls(product, quantity) {
       var wrapper = document.createElement('div');
-      wrapper.className = 'ostore-quantity d-flex align-items-center gap-2';
+      var isProductDetail = Boolean(document.querySelector('.product-details'));
+      wrapper.className = 'ostore-product-actions d-flex align-items-center gap-2' +
+         (isProductDetail ? ' flex-wrap' : '');
       wrapper.dataset.productId = product.id;
       wrapper.dataset.productName = product.name;
       wrapper.dataset.productPrice = product.price;
       wrapper.dataset.productImage = product.image;
       wrapper.dataset.productCondition = product.condition;
-      wrapper.innerHTML = '<button type="button" class="btn btn-dark btn-sm rounded-circle" data-cart-minus aria-label="Diminuer">−</button>' +
+      wrapper.innerHTML = '<div class="ostore-quantity d-flex align-items-center gap-2">' +
+         '<button type="button" class="btn btn-dark btn-sm rounded-circle" data-cart-minus aria-label="Diminuer">−</button>' +
          '<span class="fw-bold" data-cart-quantity></span>' +
-         '<button type="button" class="btn btn-dark btn-sm rounded-circle" data-cart-plus aria-label="Augmenter">+</button>';
+         '<button type="button" class="btn btn-dark btn-sm rounded-circle" data-cart-plus aria-label="Augmenter">+</button>' +
+         '</div>' +
+         (isProductDetail ? '<a href="cart.html" class="btn btn-dark flex-grow-1" data-cart-view>Voir le panier</a>' : '');
       wrapper.querySelector('[data-cart-quantity]').textContent = quantity;
       return wrapper;
    }
@@ -145,7 +188,7 @@
             }
          }
       });
-      document.querySelectorAll('.ostore-quantity[data-product-id]').forEach(function (control) {
+      document.querySelectorAll('.ostore-product-actions[data-product-id], .ostore-quantity[data-product-id]').forEach(function (control) {
          var item = cart.find(function (entry) { return entry.id === control.dataset.productId; });
          if (!item) {
             var button = document.createElement('button');
@@ -158,9 +201,16 @@
             button.dataset.img = control.dataset.productImage;
             button.dataset.condition = control.dataset.productCondition;
             button.textContent = 'ADD';
+            if (document.querySelector('.product-details')) {
+               button.className = 'btn btn-success w-100 text-uppercase btn-lg fw-bold';
+               button.textContent = 'AJOUTER AU PANIER';
+            }
             control.replaceWith(button);
          } else {
-            control.querySelector('[data-cart-quantity]').textContent = item.quantity;
+            var quantity = control.querySelector('[data-cart-quantity]');
+            if (quantity) {
+               quantity.textContent = item.quantity;
+            }
          }
       });
    }
@@ -243,5 +293,23 @@
       syncCartUI();
       renderCart();
       syncProductControls();
+
+      var progress = document.createElement('div');
+      progress.className = 'ostore-navigation-progress';
+      progress.setAttribute('aria-hidden', 'true');
+      document.body.appendChild(progress);
+      document.addEventListener('click', function (event) {
+         var link = event.target.closest('a[href]');
+         if (!link || link.target === '_blank' || link.hasAttribute('download')) {
+            return;
+         }
+         var href = link.getAttribute('href');
+         if (!href || href.charAt(0) === '#' || href.indexOf('mailto:') === 0 || href.indexOf('tel:') === 0) {
+            return;
+         }
+         progress.classList.remove('ostore-navigation-progress--active');
+         void progress.offsetWidth;
+         progress.classList.add('ostore-navigation-progress--active');
+      });
    });
 }());

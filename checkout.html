@@ -59,6 +59,7 @@
       <script src="vender/sidebar/hc-offcanvas-nav.js"></script>
       <script src="js/custom.js"></script>
       <script src="js/cart.js"></script>
+      <script src="js/auth.js"></script>
       <script src="assets/js/i18n.js"></script>
       <script>
          document.addEventListener('DOMContentLoaded', function () {
@@ -66,6 +67,15 @@
             var totals = document.querySelectorAll('[data-checkout-total]');
             var summary = document.getElementById('checkout-summary');
             var items = JSON.parse(localStorage.getItem('ostore_cart') || '[]');
+            var currentUser = window.getCurrentUser ? window.getCurrentUser() : null;
+            if (currentUser) {
+               ['name', 'phone', 'city', 'address'].forEach(function (field) {
+                  var input = form && form.elements[field];
+                  if (input && currentUser[field]) {
+                     input.value = currentUser[field];
+                  }
+               });
+            }
             if (window.getCartTotal) {
                totals.forEach(function (total) {
                   total.textContent = new Intl.NumberFormat('fr-FR').format(window.getCartTotal()) + ' FCFA';
@@ -79,6 +89,13 @@
             if (form) {
                form.addEventListener('submit', function (event) {
                   event.preventDefault();
+                  var submitButton = form.querySelector('button[type="submit"]');
+                  if (submitButton.disabled) {
+                     return;
+                  }
+                  submitButton.disabled = true;
+                  submitButton.setAttribute('aria-busy', 'true');
+                  submitButton.innerHTML = '<span class="ostore-spinner" aria-hidden="true"></span><span>Validation de votre commande...</span>';
                   var data = new FormData(form);
                   var order = {
                      id: 'OST-' + Date.now(),
@@ -89,7 +106,9 @@
                   };
                   localStorage.setItem('ostore_last_order', JSON.stringify(order));
                   localStorage.removeItem('ostore_cart');
-                  window.location.href = 'order-received.html';
+                  window.setTimeout(function () {
+                     window.location.href = 'order-received.html';
+                  }, 850);
                });
             }
          });

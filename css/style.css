@@ -19,6 +19,10 @@ Version: 0.1
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;500;600;700;800;900&display=swap');
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css");
+@view-transition {
+    navigation: auto;
+}
+
 :root {
     --green: #000000;
     --yellow: #ffffff;
@@ -31,6 +35,120 @@ body {
     font-family: 'Rubik', sans-serif;
     font-size: 12px;
     color: var(--light-black);
+}
+body > :first-child {
+    animation: ostore-fade-in 200ms ease-out both;
+}
+
+@keyframes ostore-fade-in {
+    from {
+        opacity: 0;
+        transform: translateY(3px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.ostore-navigation-progress {
+    position: fixed;
+    z-index: 2000;
+    top: 0;
+    left: 0;
+    width: 0;
+    height: 3px;
+    pointer-events: none;
+    background: #000000;
+    opacity: 0;
+}
+.ostore-navigation-progress--active {
+    animation: ostore-navigation-progress 450ms ease-out both;
+}
+
+@keyframes ostore-navigation-progress {
+    0% {
+        width: 0;
+        opacity: 1;
+    }
+    70% {
+        width: 82%;
+        opacity: 1;
+    }
+    100% {
+        width: 100%;
+        opacity: 0;
+    }
+}
+
+.ostore-toast {
+    position: fixed;
+    z-index: 2100;
+    top: 1rem;
+    left: 50%;
+    padding: 0.7rem 1rem;
+    border-radius: 999px;
+    color: #ffffff;
+    background: #000000;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.18);
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -12px);
+    transition: opacity 180ms ease, transform 180ms ease;
+}
+.ostore-toast--visible {
+    opacity: 1;
+    transform: translate(-50%, 0);
+}
+.ostore-toast a {
+    margin-left: 0.35rem;
+    color: #ffffff;
+    font-weight: 600;
+    text-decoration: underline;
+}
+.ostore-product-actions {
+    width: 100%;
+}
+
+@keyframes ostore-cart-pulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    45% {
+        transform: scale(1.15);
+    }
+}
+.ostore-cart-bar--pulse {
+    animation: ostore-cart-pulse 280ms ease-out;
+}
+
+.ostore-spinner {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    vertical-align: -0.15em;
+    border: 2px solid rgba(255, 255, 255, 0.45);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: ostore-spinner-rotation 650ms linear infinite;
+}
+@keyframes ostore-spinner-rotation {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body > :first-child,
+    .ostore-navigation-progress--active,
+    .ostore-cart-bar--pulse,
+    .ostore-spinner {
+        animation: none;
+    }
+    .ostore-toast {
+        transition: none;
+    }
 }
 a {
     text-decoration: none;

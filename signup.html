@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Ostore - Inscription</title>
+   <link rel="stylesheet" href="vender/bootstrap/css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+   <main class="container py-5" style="max-width: 480px;">
+      <div class="bg-white rounded-3 shadow-sm p-4">
+         <h1 class="h4 fw-bold mb-1">Créer votre compte</h1>
+         <p class="text-muted mb-4">Vos informations restent enregistrées sur cet appareil.</p>
+         <form id="signup-form">
+            <label class="form-label" for="signup-name">Nom complet</label>
+            <input id="signup-name" name="name" type="text" class="form-control mb-3" required autocomplete="name">
+            <label class="form-label" for="signup-email">E-mail</label>
+            <input id="signup-email" name="email" type="email" class="form-control mb-3" required autocomplete="email">
+            <label class="form-label" for="signup-phone">Téléphone / WhatsApp</label>
+            <input id="signup-phone" name="phone" type="tel" class="form-control mb-3" required autocomplete="tel">
+            <label class="form-label" for="signup-password">Mot de passe</label>
+            <input id="signup-password" name="password" type="password" class="form-control mb-3" required minlength="6" autocomplete="new-password">
+            <button class="btn btn-dark w-100" type="submit">S’inscrire</button>
+            <p data-auth-message hidden></p>
+         </form>
+         <p class="text-center mt-4 mb-0">Déjà client ? <a href="signin.html">Se connecter</a></p>
+      </div>
+   </main>
+   <script src="js/auth.js"></script>
+</body>
+</html>

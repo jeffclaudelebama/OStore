@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <title>Ostore - Mon compte</title>
+   <link rel="stylesheet" href="vender/bootstrap/css/bootstrap.min.css">
+   <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+   <main class="container py-4" style="max-width: 640px;" data-account-page>
+      <div class="d-flex align-items-center justify-content-between mb-3">
+         <a href="index.html" class="text-dark">← Accueil</a>
+         <button type="button" class="btn btn-outline-dark btn-sm" data-logout>Se déconnecter</button>
+      </div>
+      <section class="bg-dark text-white rounded-3 p-4 mb-3">
+         <p class="small mb-1">Mon compte</p>
+         <h1 class="h4 mb-2" data-user-name></h1>
+         <p class="mb-1" data-user-phone></p>
+         <p class="mb-0" data-user-email></p>
+      </section>
+      <section class="bg-white rounded-3 shadow-sm p-3">
+         <h2 class="h6 fw-bold">Historique des commandes</h2>
+         <div data-order-history></div>
+      </section>
+   </main>
+   <script src="js/auth.js"></script>
+</body>
+</html>

@@ -84,7 +84,18 @@
             </div>
          </div>
          <div class="mt-auto bg-white p-3">
-            <a href="cart.html" class="btn btn-success w-100 text-uppercase btn-lg fw-bold" data-cart-add data-product-id="iphone-13-128-go" data-product-name="iPhone 13 128 Go - Minuit" data-product-price="285000" data-product-image="img/product-detail-1.png" data-product-condition="Comme neuf - Batterie 92%">AJOUTER AU PANIER</a>
+            <div id="product-action" data-product-id="iphone-13-128-go">
+               <a href="cart.html" class="btn btn-success w-100 text-uppercase btn-lg fw-bold" data-cart-add
+                  data-id="iphone-13-128-go"
+                  data-name="iPhone 13 128 Go - Minuit"
+                  data-price="285000"
+                  data-img="img/product-detail-1.png"
+                  data-condition="Comme neuf - Batterie 92%">AJOUTER AU PANIER</a>
+            </div>
+            <a id="ostore-cart-bar" href="cart.html" class="ostore-cart-bar bg-black text-white rounded-3 shadow-lg mt-2 px-3 py-2 d-flex align-items-center justify-content-between" hidden>
+               <span><i class="bi bi-bag-fill me-2"></i><span data-cart-count>0 article</span></span>
+               <strong data-cart-total>0 FCFA</strong>
+            </a>
          </div>
       </div>
       <!-- sidebar nav -->
